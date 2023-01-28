@@ -59,13 +59,17 @@ public class WhatsappRepository {
     public int sendMessage(Message message, User sender, Group group) throws Exception {
         List<Message> listOfMessages= new ArrayList<>();
         if(!groupUserMap.containsKey(group))  throw new Exception("Group does not exist");
-        else if(!(groupUserMap.get(group).contains(sender)))  throw new Exception("You are not allowed to send message");
+        else if(!userExistsInGroup(group,sender))  throw new Exception("You are not allowed to send message");
 
         listOfMessages.add(message);
         groupMessageMap.put(group,listOfMessages);
         return listOfMessages.size();
     }
-
+ public boolean userExistsInGroup(Group group,User sender){
+        List<User> list= groupUserMap.get(group);
+        if(list.contains(sender)) return true;
+        return false;
+ }
     public String changeAdmin(User approver, User user, Group group) throws Exception{
         if(!groupUserMap.containsKey(group)){
             throw new Exception("Group does not exist");
