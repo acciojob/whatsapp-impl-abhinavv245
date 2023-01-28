@@ -59,8 +59,8 @@ public class WhatsappRepository {
     public int sendMessage(Message message, User sender, Group group) throws Exception {
         List<Message> listOfMessages= new ArrayList<>();
         if(!groupUserMap.containsKey(group))  throw new Exception("Group does not exist");
-        else if(!userExistsInGroup(group,sender))  throw new Exception("You are not allowed to send message");
-
+       if(!userExistsInGroup(group,sender))  throw new Exception("You are not allowed to send message");
+       if(groupMessageMap.containsKey(group)) listOfMessages=groupMessageMap.get(group);
         listOfMessages.add(message);
         groupMessageMap.put(group,listOfMessages);
         return listOfMessages.size();
